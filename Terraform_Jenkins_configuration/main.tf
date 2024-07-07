@@ -60,6 +60,11 @@ resource "aws_instance" "jenkins_instance" {
     Name = "Jenkins_instance_by_terraform"
   }
 
+  root_block_device {
+    volume_size = 10
+    volume_type = "gp2"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "sudo echo 'Wait for ssh creation'"
