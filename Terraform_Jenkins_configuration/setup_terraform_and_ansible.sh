@@ -1,4 +1,9 @@
 #!/bin/bash
+
+#TRIGGER TERRAFORM
+terraform init
+terraform apply -auto-approve
+
 # SAVE PRIVATE KEY
 JENKINS_PRIVATE_KEY=$(terraform output -raw jenkins_private_key_pem)
 # CHECK IF IT WAS SUCESSFULL
@@ -27,3 +32,7 @@ echo "${JENKINS_IP}"
 } > Ansible/hosts
 
 echo "Hosts modified properly"
+
+#TRIGGER ANSIBLE
+cd Ansible
+ansible-playbook -i hosts --ssh-extra-args="-o StrictHostKeyChecking=no" -vv setup_jenkins.yaml
